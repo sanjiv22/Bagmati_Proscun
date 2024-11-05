@@ -13,3 +13,11 @@ Summary of codes inside src/views:
 12. SupplierAutocomplete: Autocomplete with lazy and filter of the supplier field
 13. Datatable: custom validation, where bank is required if paymentMode is online banking
 14. Information: validation across name, phone, rows, adding/removing row in datatable
+
+
+
+To Run
+1. npm run build
+2. cd to /dist
+3. python3 -m http.server on dist folder
+4. open browser at http://0.0.0.0.8000/
