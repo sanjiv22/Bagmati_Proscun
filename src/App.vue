@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
-    <input ref="inputField" type="text" name="membershipNo" v-model="membershipNo" placeholder="asd" class="input-field"
-      @keydown.enter="filterByMembershipNo">
+    <input ref="inputField" type="text" name="membershipNo" v-model="membershipNo" placeholder="Membership No"
+      class="input-field" @keydown.enter="filterByMembershipNo">
     <div class="canvas-container">
       <canvas ref="canvas" class="canvas" width="650" height="850"></canvas>
     </div>
@@ -34,7 +34,6 @@ onBeforeUnmount(() => {
 onMounted(async () => {
   document.addEventListener('click', keepFocus);
 
-
   await fetch('/AgmFormData.xlsx')
     .then((response) => response.arrayBuffer())
     .then((data) => {
@@ -56,7 +55,7 @@ onMounted(async () => {
         ward_no: row[headers.indexOf('Ward No')] || '',
         mobile_no: row[headers.indexOf('Mobile No')] || '',
         membership_no: row[headers.indexOf('Membership No')] || '',
-        voterNo: row[headers.indexOf('Voter No')] || '',
+        voterNo: row[headers.indexOf('Voter ID')] || '',
         photo: row[headers.indexOf('Photo')] || '',
         mQr: row[headers.indexOf('QR')] || '',
       })).filter(row => row.name && row.nepali_name && row.gender && row.saccos_union && row.post &&
@@ -77,16 +76,17 @@ const filterByMembershipNo = () => {
   selectedMember.value = allData.value.find(item => {
     return String(item.membership_no) === codeToFind;
   });
+
   drawDataOnCanvas(selectedMember.value);  // Draw the image only if there's a match
   membershipNo.value = ''
 };
 
 const loadImage = async (src) => {
-  return await new Promise((resolve, reject) => {
+  return await new Promise((resolve) => {
     let img = new Image();
     img.src = src;
     img.onload = () => resolve(img);
-    img.onerror = (err) => reject(err);
+    img.onerror = (err) => resolve(null);
   });
 };
 
@@ -101,22 +101,24 @@ const drawDataOnCanvas = async (item) => {
 
     // Load and draw the signature and QR images after the background image
     const memberPhoto = await loadImage('/photo/' + item.photo);
-    const memberQr = await loadImage('/qr/' + item.mQr);
-
+    const memberQr = await loadImage('/qr/' + item.membership_no + '.jpg');
     //opacity = 50% (for positioning only)
     // ctx.globalAlpha = 0.7;
 
     // Draw the signature and QR images
-    ctx.drawImage(memberPhoto, 75, 200, 170, 200);
-    ctx.drawImage(memberQr, 460, 630, 145, 145);
+    if (memberPhoto != null)
+      ctx.drawImage(memberPhoto, 75, 200, 170, 200);
+
+    if (memberQr != null)
+      ctx.drawImage(memberQr, 460, 630, 145, 145);
 
     // Draw text details
-    ctx.font = ' bold 20px Arial';
+    ctx.font = 'bold 20px Arial';
     ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
 
     ctx.fillText(item.membership_no, 250, 685);
-    ctx.fillText(item.voterNo, 250, 763);
+    ctx.fillText(item.voterNo, 275, 763);
 
     let address = item.district + "- " + item.ward_no + ", " + item.municipality;
     ctx.fillText(item.name, 320, 450);
