@@ -118,9 +118,9 @@ const drawDataOnCanvas = async (item) => {
     ctx.textAlign = 'center';
 
     ctx.fillText(item.membership_no, 250, 685);
-    ctx.fillText(item.voterNo, 275, 763);
+    ctx.fillText(item.voterNo, 285, 765);
 
-    let address = item.district + "- " + item.ward_no + ", " + item.municipality;
+    let address = item.district + " - " + item.ward_no + ", " + item.municipality;
     ctx.fillText(item.name, 320, 450);
     ctx.fillText(address, 320, 520);
 
