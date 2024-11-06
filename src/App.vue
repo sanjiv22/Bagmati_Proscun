@@ -5,7 +5,7 @@
         class="input-field" @keydown.enter="filterByMembershipNo">
 
       <strong style="font-size: 30px; margin-top: 100px; padding-left: 25px;"> Powered By:</strong>
-      <img style="margin-top: -20px; margin-left: -10px;" src="/public/Logo_vector.png" width="300" height="150" />
+      <img style="margin-top: -20px; margin-left: -10px;" src="/Logo_vector.png" width="300" height="150" />
     </div>
     <div class="canvas-container">
       <canvas ref="canvas" class="canvas" width="650" height="850"></canvas>
@@ -149,7 +149,7 @@ const drawDataOnCanvas = async (item) => {
   width: 100vw;
   height: 100vh;
   margin: 0 auto;
-  background-image: url('/public/white_bg.png');
+  background-image: url('/white_bg.png');
   background-size: cover;
   background-attachment: fixed; /* Keeps the image fixed when zooming */
   background-repeat: no-repeat;
