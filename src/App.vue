@@ -20,9 +20,12 @@ import * as XLSX from 'xlsx';
 const canvas = ref(null);
 const allData = ref([]);
 const membershipNo = ref('');
-const staticImage = ref(null)
+const defaultImage = ref(null)
+const homeImage = ref(null)
+
 const inputField = ref(null);
 const selectedMember = ref(null)
+const timeOut = ref(null)
 
 const keepFocus = (event) => {
   // Focus the input unless it's the current active element
@@ -69,14 +72,22 @@ onMounted(async () => {
     .catch((error) => console.error('Error loading the Excel file:', error));
 
   //load background static image
-  staticImage.value = await loadImage('/background-image.jpg');
-  const ctx = canvas.value.getContext('2d');
-  ctx.clearRect(0, 0, canvas.value.width, canvas.value.height);
-  ctx.drawImage(staticImage.value, 0, 0, canvas.value.width, canvas.value.height);
+  defaultImage.value = await loadImage('/background-image.jpg');
+  homeImage.value = await loadImage('/home.png');
+  resetWindow()
+  // const ctx = canvas.value.getContext('2d');
+  // ctx.clearRect(0, 0, canvas.value.width, canvas.value.height);
+  // ctx.drawImage(staticImage.value, 0, 0, canvas.value.width, canvas.value.height);
 });
 
+const resetWindow = () => {
+  const ctx = canvas.value.getContext('2d');
+  ctx.clearRect(0, 0, canvas.value.width, canvas.value.height);
+  ctx.drawImage(homeImage.value, 30, 100, 600, 500);
+}
 
 const filterByMembershipNo = () => {
+  clearTimeout(timeOut.value);
   const codeToFind = membershipNo.value.trim(); // Remove extra spaces
   selectedMember.value = allData.value.find(item => {
     return String(item.membership_no) === codeToFind;
@@ -84,6 +95,7 @@ const filterByMembershipNo = () => {
 
   drawDataOnCanvas(selectedMember.value);  // Draw the image only if there's a match
   membershipNo.value = ''
+  timeOut.value = setTimeout(resetWindow, 7000);
 };
 
 const loadImage = async (src) => {
@@ -98,7 +110,7 @@ const loadImage = async (src) => {
 const drawDataOnCanvas = async (item) => {
   const ctx = canvas.value.getContext('2d');
   ctx.clearRect(0, 0, canvas.value.width, canvas.value.height);
-  ctx.drawImage(staticImage.value, 0, 0, canvas.value.width, canvas.value.height);
+  ctx.drawImage(defaultImage.value, 0, 0, canvas.value.width, canvas.value.height);
 
   try {
 
@@ -151,15 +163,18 @@ const drawDataOnCanvas = async (item) => {
   margin: 0 auto;
   background-image: url('/white_bg.png');
   background-size: cover;
-  background-attachment: fixed; /* Keeps the image fixed when zooming */
+  background-attachment: fixed;
+  /* Keeps the image fixed when zooming */
   background-repeat: no-repeat;
-  background-position: center;}
+  background-position: center;
+  overflow: hidden !important;
+}
 
 .input-container {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  width: 20%;
+  width: 25%;
   margin: 0 auto;
   flex-grow: 2;
 }
@@ -167,8 +182,8 @@ const drawDataOnCanvas = async (item) => {
 .canvas-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 80%;
+  align-items: self-start;
+  width: 70%;
   margin: 0 auto;
   flex-grow: 2;
 }
