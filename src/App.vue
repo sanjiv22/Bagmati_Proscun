@@ -1,7 +1,12 @@
 <template>
   <div class="main-container">
-    <input ref="inputField" type="text" name="membershipNo" v-model="membershipNo" placeholder="Membership No"
-      class="input-field" @keydown.enter="filterByMembershipNo">
+    <div class="input-container">
+      <input ref="inputField" type="text" name="membershipNo" v-model="membershipNo" placeholder="Membership No"
+        class="input-field" @keydown.enter="filterByMembershipNo">
+
+      <strong style="font-size: 30px; margin-top: 100px; padding-left: 25px;"> Powered By:</strong>
+      <img style="margin-top: -20px; margin-left: -10px;" src="/public/Logo_vector.png" width="300" height="150" />
+    </div>
     <div class="canvas-container">
       <canvas ref="canvas" class="canvas" width="650" height="850"></canvas>
     </div>
@@ -139,23 +144,37 @@ const drawDataOnCanvas = async (item) => {
 <style scoped>
 .main-container {
   display: flex;
-  width: 100%;
-  height: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100vw;
+  height: 100vh;
   margin: 0 auto;
+  background-image: url('/public/white_bg.png');
+  background-size: cover;
+  background-attachment: fixed; /* Keeps the image fixed when zooming */
+  background-repeat: no-repeat;
+  background-position: center;}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 20%;
+  margin: 0 auto;
+  flex-grow: 2;
 }
 
 .canvas-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 80%;
   margin: 0 auto;
   flex-grow: 2;
 }
 
 .input-field {
-  width: 20%;
-  height: 10%;
+  width: 200px;
   border: 0px;
 }
 </style>
