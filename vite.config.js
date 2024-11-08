@@ -12,7 +12,7 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
-  base: "/Bagmati_Proscun",
+  base: "/Bagmati_Proscun/",
   // server: {
   //   host: true,
   //   port: 8080,

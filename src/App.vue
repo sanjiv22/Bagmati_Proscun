@@ -72,8 +72,8 @@ onMounted(async () => {
     .catch((error) => console.error('Error loading the Excel file:', error));
 
   //load background static image
-  defaultImage.value = await loadImage('/background-image.jpg');
-  homeImage.value = await loadImage('/home.png');
+  defaultImage.value = await loadImage(`${import.meta.env.BASE_URL}/background-image.jpg`);
+  homeImage.value = await loadImage(`${import.meta.env.BASE_URL}/home.png`);
   resetWindow()
   // const ctx = canvas.value.getContext('2d');
   // ctx.clearRect(0, 0, canvas.value.width, canvas.value.height);
@@ -117,8 +117,8 @@ const drawDataOnCanvas = async (item) => {
     if (!item) return;
 
     // Load and draw the signature and QR images after the background image
-    const memberPhoto = await loadImage('/photo/' + item.photo);
-    const memberQr = await loadImage('/qr/' + item.membership_no + '.jpg');
+    const memberPhoto = await loadImage(`${import.meta.env.BASE_URL}/photo/` + item.photo);
+    const memberQr = await loadImage(`${import.meta.env.BASE_URL}/qr/` + item.membership_no + '.jpg');
     //opacity = 50% (for positioning only)
     // ctx.globalAlpha = 0.7;
 
