@@ -42,7 +42,7 @@ onBeforeUnmount(() => {
 onMounted(async () => {
   document.addEventListener('click', keepFocus);
 
-  await fetch('/AgmFormData.xlsx')
+  await fetch(`${import.meta.env.BASE_URL}/AgmFormData.xlsx`)
     .then((response) => response.arrayBuffer())
     .then((data) => {
       const workbook = XLSX.read(data, { type: 'array' });
